@@ -54,7 +54,7 @@ local function identifyTeamByShirt()
     local myShirt = myChar:FindFirstChildWhichIsA("Shirt")
     if not myShirt then return end
 
-    for _, player in pairs(P:GetPlayers()) do
+   for _, player in pairs(P:GetPlayers()) do
         if player ~= L and player.Character then
             local theirShirt = player.Character:FindFirstChildWhichIsA("Shirt")
             if theirShirt and theirShirt.ShirtTemplate == myShirt.ShirtTemplate then
@@ -104,15 +104,17 @@ end
 U.Heartbeat:Connect(function()
     if not S.Enabled or not C or not H then return end
 
-    for _, p in pairs(P:GetPlayers()) do
+ for _, p in pairs(P:GetPlayers()) do
         if IsOpponent(p) and IsTryingToSteal(p) then
             local enemyHRP = p.Character and p.Character:FindFirstChild("HumanoidRootPart")
             if enemyHRP then
                 local dist = (enemyHRP.Position - H.Position).Magnitude
                 if dist < S.range and IsFacingPlayer(enemyHRP, H) then
-                    local adjustedReaction = math.clamp(S.reactionTime * (dist / S.range), 0.001, S.reactionTime)
+                    local adjustedReaction = math.clamp(S.reactionTime * (dist / S.range),
+                    0.001, S.reactionTime)
                     task.delay(adjustedReaction, function()
-                        if C and C:FindFirstChild("Values") and C.Values:FindFirstChild("HasBall") and C.Values.HasBall.Value then
+                        if C and C:FindFirstChild("Values") and
+                        C.Values:FindFirstChild("HasBall") and C.Values.HasBall.Value then
                             Dribble(dist)
                         end
                     end)
